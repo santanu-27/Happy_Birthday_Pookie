@@ -1,0 +1,942 @@
+/* ================================
+   CSS Variables & Root Styles
+   ================================ */
+
+:root {
+    /* Romantic Theme (Default) */
+    --bg-primary: #faf8f5;
+    --bg-secondary: #f5f0eb;
+    --text-primary: #2a2522;
+    --text-secondary: #6b5d57;
+    --accent-primary: #d4a5a5;
+    --accent-secondary: #9d7b7b;
+    --accent-highlight: #e8b4b8;
+    --shadow-color: rgba(42, 37, 34, 0.08);
+    --shadow-strong: rgba(42, 37, 34, 0.15);
+    
+    /* Typography */
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Montserrat', sans-serif;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --spacing-xl: 5rem;
+    
+    /* Transitions */
+    --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+[data-theme="vibrant"] {
+    --bg-primary: #1a1625;
+    --bg-secondary: #2a2438;
+    --text-primary: #f5f0eb;
+    --text-secondary: #c4b5b0;
+    --accent-primary: #ff6b9d;
+    --accent-secondary: #c44569;
+    --accent-highlight: #ffa07a;
+    --shadow-color: rgba(255, 107, 157, 0.2);
+    --shadow-strong: rgba(255, 107, 157, 0.4);
+}
+
+/* ================================
+   Reset & Base Styles
+   ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: var(--transition-smooth);
+    min-height: 100vh;
+}
+
+/* ================================
+   Ambient Background Layer
+   ================================ */
+
+.ambient-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+#particleCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* ================================
+   Control Panel
+   ================================ */
+
+.control-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: 1rem;
+    animation: slideInBottom 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s backwards;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 90vw;
+}
+
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 100px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.control-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--accent-primary);
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+[data-theme="vibrant"] .control-btn {
+    background: rgba(42, 36, 56, 0.9);
+    color: var(--text-primary);
+    border-color: var(--accent-primary);
+}
+
+.control-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--shadow-strong);
+    border-color: var(--accent-secondary);
+}
+
+.control-btn:active {
+    transform: translateY(-1px);
+}
+
+.control-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+}
+
+.control-btn .icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
+/* Ultimate button special styling - now includes fireworks */
+.ultimate-btn {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ffd700 50%, #667eea 100%);
+    color: white;
+    border-color: #ff6b9d;
+    font-weight: 400;
+    padding: 1rem 2rem;
+    box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+}
+
+.ultimate-btn .icon {
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.ultimate-btn:hover {
+    background: linear-gradient(135deg, #ffd700 0%, #ff6b9d 50%, #764ba2 100%);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 35px rgba(255, 107, 157, 0.6);
+}
+
+.ultimate-btn.active {
+    background: linear-gradient(135deg, #f093fb 0%, #ffd89b 50%, #ff6b9d 100%);
+    animation: ultimatePulse 0.5s ease-in-out infinite;
+}
+
+@keyframes ultimatePulse {
+    0%, 100% {
+        transform: translateY(-3px) scale(1);
+        box-shadow: 0 10px 35px rgba(255, 107, 157, 0.6);
+    }
+    50% {
+        transform: translateY(-3px) scale(1.08);
+        box-shadow: 0 15px 45px rgba(255, 107, 157, 0.8);
+    }
+}
+
+/* ================================
+   Main Container
+   ================================ */
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ================================
+   Hero Section
+   ================================ */
+
+.hero-section {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title-wrapper {
+    display: inline-block;
+    position: relative;
+}
+
+.main-title {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.title-line {
+    display: block;
+    opacity: 0;
+    animation: revealText 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.title-line:nth-child(1) {
+    animation-delay: 0.4s;
+}
+
+.title-line:nth-child(2) {
+    animation-delay: 0.7s;
+}
+
+.title-line.highlight {
+    color: var(--accent-primary);
+    font-weight: 400;
+    font-style: italic;
+}
+
+@keyframes revealText {
+    from {
+        opacity: 0;
+        transform: translateY(30px) rotate(-2deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.love-message {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #c9a0dc;
+    margin: 1rem 0;
+    opacity: 0;
+    letter-spacing: 0.05em;
+    animation: revealText 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1s forwards;
+    text-shadow: 0 2px 10px rgba(201, 160, 220, 0.3);
+}
+
+[data-theme="vibrant"] .love-message {
+    color: #ffd89b;
+    text-shadow: 0 2px 10px rgba(255, 216, 155, 0.4);
+}
+
+.subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    font-weight: 200;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.2s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* ================================
+   Celebration Grid
+   ================================ */
+
+.celebration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: var(--spacing-lg);
+    flex: 1;
+}
+
+.grid-item {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(212, 165, 165, 0.2);
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: var(--transition-smooth);
+    opacity: 0;
+    animation: gridItemAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+[data-theme="vibrant"] .grid-item {
+    background: rgba(42, 36, 56, 0.4);
+    border-color: rgba(255, 107, 157, 0.3);
+}
+
+.grid-item:nth-child(1) { animation-delay: 0.6s; }
+.grid-item:nth-child(2) { animation-delay: 0.8s; }
+.grid-item:nth-child(3) { animation-delay: 1s; }
+.grid-item:nth-child(4) { animation-delay: 1.2s; }
+
+@keyframes gridItemAppear {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.grid-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px var(--shadow-strong);
+}
+
+.item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.item-label {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* ================================
+   Image Carousel in Containers
+   ================================ */
+
+.image-carousel {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    background: var(--bg-secondary);
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.carousel-image.active {
+    opacity: 1;
+    animation: imageZoom 5s ease-in-out infinite;
+}
+
+@keyframes imageZoom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.image-carousel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(212, 165, 165, 0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Loading state for images */
+.carousel-image[src=""] {
+    background: linear-gradient(
+        135deg,
+        var(--accent-primary) 0%,
+        var(--accent-secondary) 50%,
+        var(--accent-highlight) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Hover effect on image containers */
+.image-carousel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px var(--shadow-strong);
+}
+
+[data-theme="vibrant"] .image-carousel {
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="vibrant"] .image-carousel:hover {
+    box-shadow: 0 12px 35px rgba(255, 107, 157, 0.5);
+}
+
+/* ================================
+   Message Card
+   ================================ */
+
+.message-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.card-content {
+    position: relative;
+    text-align: center;
+    padding: 2rem;
+}
+
+.quote-mark {
+    font-family: var(--font-display);
+    font-size: 6rem;
+    line-height: 0.5;
+    color: var(--accent-primary);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.message-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.signature {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* ================================
+   Control Panel
+   ================================ */
+
+.footer-accent {
+    text-align: center;
+    padding: 3rem 0;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.5s forwards;
+}
+
+.ornament {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    margin: 0 auto;
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+
+@media (max-width: 768px) {
+    .control-panel {
+        bottom: 1rem;
+        max-width: 95vw;
+        gap: 0.5rem;
+    }
+    
+    .container {
+        padding: 2rem 1rem 8rem 1rem;
+    }
+    
+    .celebration-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .grid-item {
+        padding: 2rem 1.5rem;
+    }
+    
+    .btn-text {
+        display: none;
+    }
+    
+    .control-btn {
+        padding: 0.75rem;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+    }
+
+    .ultimate-btn {
+        width: 56px;
+        height: 56px;
+        padding: 0.875rem;
+    }
+
+    .message-banner {
+        padding: 2rem;
+        width: 90%;
+    }
+
+    .message-banner h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .control-panel {
+        gap: 0.4rem;
+    }
+
+    .control-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .ultimate-btn {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* ================================
+   Dynamic Love Tree (Created by Button)
+   ================================ */
+
+.dynamic-love-tree {
+    position: fixed;
+    bottom: -400px;
+    z-index: 500;
+    pointer-events: none;
+    animation: treeGrowIn 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    filter: drop-shadow(0 10px 30px var(--shadow-strong));
+}
+
+@keyframes treeGrowIn {
+    0% {
+        transform: scale(0) translateY(0);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.1) translateY(-400px);
+    }
+    100% {
+        transform: scale(1) translateY(-380px);
+        opacity: 1;
+    }
+}
+
+.dynamic-love-tree.grow-out {
+    animation: treeGrowOut 1.5s ease-in forwards;
+}
+
+@keyframes treeGrowOut {
+    0% {
+        transform: scale(1) translateY(-380px);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) translateY(0);
+        opacity: 0;
+    }
+}
+
+.dynamic-tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: bottom center;
+}
+
+.dynamic-tree-crown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.dynamic-heart-row {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    opacity: 0;
+}
+
+.dynamic-heart-row.animate {
+    animation: heartRowAppear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes heartRowAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.dynamic-heart {
+    font-size: 2.5rem;
+    color: #ff69b4;
+    display: inline-block;
+    animation: dynamicHeartPulse 2s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+}
+
+.dynamic-heart:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.dynamic-heart:nth-child(even) {
+    animation-delay: 0.3s;
+}
+
+@keyframes dynamicHeartPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.dynamic-tree-trunk {
+    width: 40px;
+    height: 120px;
+    background: linear-gradient(180deg, #8b6f47, #6b4423);
+    border-radius: 0 0 12px 12px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: trunkGrow 1s ease-out 0.3s backwards;
+}
+
+@keyframes trunkGrow {
+    from {
+        height: 0;
+    }
+    to {
+        height: 120px;
+    }
+}
+
+.dynamic-tree-trunk::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -15px;
+    width: 30px;
+    height: 8px;
+    background: #8b6f47;
+    border-radius: 4px;
+    transform: rotate(-30deg);
+}
+
+.dynamic-tree-trunk::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    right: -15px;
+    width: 30px;
+    height: 8px;
+    background: #8b6f47;
+    border-radius: 4px;
+    transform: rotate(30deg);
+}
+
+.tree-sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: sparkleFloat 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes sparkleFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+/* Tree button active state */
+.tree-btn.active {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    border-color: #ff69b4;
+}
+
+/* ================================
+   Fireworks System
+   ================================ */
+
+.firework {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.firework-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: explode 1.5s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.firework-trail {
+    position: fixed;
+    width: 4px;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, white);
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9998;
+    animation: rocketTrail 1s ease-out forwards;
+}
+
+@keyframes rocketTrail {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}
+
+/* ================================
+   Ultimate Celebration Effects
+   ================================ */
+
+.screen-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+    z-index: 10000;
+    animation: flashEffect 0.5s ease-out;
+}
+
+@keyframes flashEffect {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.message-banner {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    backdrop-filter: blur(20px);
+    padding: 3rem 4rem;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    pointer-events: none;
+    animation: bannerAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+[data-theme="vibrant"] .message-banner {
+    background: linear-gradient(135deg, rgba(42, 36, 56, 0.95), rgba(42, 36, 56, 0.85));
+}
+
+@keyframes bannerAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.message-banner h2 {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: var(--accent-primary);
+    margin: 0;
+    text-align: center;
+    animation: textGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 20px var(--accent-primary);
+    }
+    to {
+        text-shadow: 0 0 40px var(--accent-primary), 0 0 60px var(--accent-highlight);
+    }
+}
+
+.message-banner.fade-out {
+    animation: bannerFadeOut 1s ease-out forwards;
+}
+
+@keyframes bannerFadeOut {
+    to {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* ================================
+   Accessibility
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for keyboard navigation */
+.control-btn:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 4px;
+}
